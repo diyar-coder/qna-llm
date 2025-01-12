@@ -9,3 +9,4 @@ streamlit
 tiktoken
 langchain_community
 streamlit_option_menu
+sqlite3>=3.35.0
