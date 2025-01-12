@@ -9,3 +9,4 @@ streamlit
 tiktoken
 langchain_community
 streamlit_option_menu
+pysqlite3-binary
