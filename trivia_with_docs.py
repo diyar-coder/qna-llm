@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
 # layout:
 
-    st.title('LLM Question-Answering Application')
+    st.title('LLM Question Answering Application')
 
 
     with st.sidebar:
