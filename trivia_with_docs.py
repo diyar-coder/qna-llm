@@ -45,7 +45,7 @@ def chunk_data(data, chunk_size=256, chunk_overlap=20):
 
 # create embeddings using OpenAIEmbeddings() and save them in a Chroma vector store
 def create_embeddings(chunks):
-    embeddings = OpenAIEmbeddings(model='text-embedding-3-small', dimensions=1536)  # 512 works as well
+    embeddings = OpenAIEmbeddings(api_key=st.secrets["OPENAI_API_KEY"], model='text-embedding-3-small', dimensions=1536)  # 512 works as well
     vector_store = Chroma.from_documents(chunks, embeddings)
 
     # if you want to use a specific directory for chromadb
@@ -57,7 +57,7 @@ def ask_and_get_answer(vector_store, q, k=3):
     from langchain.chains import RetrievalQA
     from langchain_openai import ChatOpenAI
 
-    llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=1)
+    llm = ChatOpenAI(api_key=st.secrets["OPENAI_API_KEY"], model='gpt-3.5-turbo', temperature=1)
     retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k': k})
     chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
 
@@ -83,11 +83,6 @@ def calculate_embedding_cost(texts):
 if __name__ == "__main__":
     import os
 
-    # loading the OpenAI api key from .env
-    from dotenv import load_dotenv, find_dotenv
-    load_dotenv(find_dotenv(), override=True)
-
-
     def clear_history():
         del st.session_state['history']
 
@@ -102,10 +97,6 @@ if __name__ == "__main__":
             menu_title = "Main Menu",
             options = ["Q&A","Trivia"],
         )
-        # text_input for the OpenAI API key (alternative to python-dotenv and .env)
-        api_key = st.text_input('OpenAI API Key:', type='password') # will display asterisks instead of the actual key fro security
-        if api_key:
-            os.environ['OPENAI_API_KEY'] = api_key
 
         # file uploader widget
         uploaded_file = st.file_uploader('Upload a file:', type=['pdf', 'docx', 'txt'])
