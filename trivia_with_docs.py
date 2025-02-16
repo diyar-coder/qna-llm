@@ -52,7 +52,7 @@ def create_embeddings(chunks):
     # vector_store = Chroma.from_documents(chunks, embeddings, persist_directory='./mychroma_db')
     return vector_store
 
-# the hgiher k is the higher price you pay because you sue more tokens
+# the higher k is the higher price you pay because you use more tokens
 def ask_and_get_answer(vector_store, q, k=3):
     from langchain.chains import RetrievalQA
     from langchain_openai import ChatOpenAI
@@ -88,24 +88,25 @@ if __name__ == "__main__":
 
 # layout:
 
-    st.title('LLM Question Answering App')
+    st.title('Question-Answering Model')
 
 
     with st.sidebar:
 
         selected = option_menu(
             menu_title = "Main Menu",
-            options = ["Q&A","Trivia"],
+            options = ["Q&A",#"Trivia"
+                       ],
         )
 
         # file uploader widget
         uploaded_file = st.file_uploader('Upload a file:', type=['pdf', 'docx', 'txt'])
 
         # chunk size number widget
-        chunk_size = st.number_input('Chunk size:', min_value=100, max_value=2048, value=512, on_change=clear_history)
+        # chunk_size = st.number_input('Chunk size:', min_value=100, max_value=2048, value=512, on_change=clear_history)
 
-        # k number input widget
-        k = st.number_input('k', min_value=1, max_value=20, value=3, on_change=clear_history)
+        # # k number input widget
+        # k = st.number_input('k', min_value=1, max_value=20, value=3, on_change=clear_history)
 
         # add data button widget
         add_data = st.button('Add Data', on_click=clear_history)
@@ -165,31 +166,31 @@ if __name__ == "__main__":
                     # text area widget for the chat history
                     st.text_area(label='Chat History', value=h, key='history', height=400)
 
-    if selected == "Trivia":
-        st.subheader("Test yourself with 10 questions!")
-
-        if 'vs' in st.session_state:
-            vector_store = st.session_state.vs
-            retriever = vector_store.as_retriever(search_type = "similarity", search_kwargs = {"k": 3})
-
-        def generate_questions():
-            # Retrieve the most relevant chunks from the document
-            relevant_chunks = retriever.get_relevant_documents("Generate trivia questions")
-
-            # Join the chunks into a string
-            document_text = "\n".join([chunk.page_content for chunk in relevant_chunks])
-
-            # Prompt for the model
-            prompt = f"""
-            Based on the following document content, generate 10 trivia questions to test the readers understanding of the text within the document: {document_text}"""
-            
-        if st.button("Generate Trivia Questions"):
-            with st.spinner('Generating questions...'):
-                trivia_questions = generate_questions()
-                st.write(trivia_questions)
+    # if selected == "Trivia":
+    #     st.subheader("Test yourself with 10 questions!")
+    #
+    #     if 'vs' in st.session_state:
+    #         vector_store = st.session_state.vs
+    #         retriever = vector_store.as_retriever(search_type = "similarity", search_kwargs = {"k": 3})
+    #
+    #     def generate_questions():
+    #         # Retrieve the most relevant chunks from the document
+    #         relevant_chunks = retriever.get_relevant_documents("Generate trivia questions")
+    #
+    #         # Join the chunks into a string
+    #         document_text = "\n".join([chunk.page_content for chunk in relevant_chunks])
+    #
+    #         # Prompt for the model
+    #         prompt = f"""
+    #         Based on the following document content, generate 10 trivia questions to test the readers understanding of the text within the document: {document_text}"""
+    #
+    #     if st.button("Generate Trivia Questions"):
+    #         with st.spinner('Generating questions...'):
+    #             trivia_questions = generate_questions()
+    #             st.write(trivia_questions)
 
         else:
-            st.warning("Before we can generate questions, make sure you upload a document!")
+            st.warning("Before we can generate answers, make sure you upload a document!")
 
 
 
