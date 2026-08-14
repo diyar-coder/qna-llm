@@ -52,7 +52,7 @@ def create_embeddings(chunks):
     # vector_store = Chroma.from_documents(chunks, embeddings, persist_directory='./mychroma_db')
     return vector_store
 
-# the higher k is the higher price you pay because you sue more tokens
+# the higher k is the higher price you pay because you use more tokens
 def ask_and_get_answer(vector_store, q, k=3):
     from langchain.chains import RetrievalQA
     from langchain_openai import ChatOpenAI
