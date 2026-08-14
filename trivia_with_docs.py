@@ -1,4 +1,4 @@
-# Install all libraries by running in the terminal: pip install -q -r ./requirements.txt
+f# Install all libraries by running in the terminal: pip install -q -r ./requirements.txt
 
 # Code is using RAG because it is creating a vector store using Chroma to break down our documents
 # function ask_and_get_answer() uses Chroma to break down user's questions and document chunks into vectors to find most relevant results
@@ -52,7 +52,7 @@ def create_embeddings(chunks):
     # vector_store = Chroma.from_documents(chunks, embeddings, persist_directory='./mychroma_db')
     return vector_store
 
-# the hgiher k is the higher price you pay because you sue more tokens
+# the higher k is the higher price you pay because you sue more tokens
 def ask_and_get_answer(vector_store, q, k=3):
     from langchain.chains import RetrievalQA
     from langchain_openai import ChatOpenAI
