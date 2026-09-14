@@ -1,0 +1,31 @@
+# Secrets — never commit API keys
+.streamlit/secrets.toml
+.streamlit/secrets.toml.local
+.env
+.env.*
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+
+# Local Streamlit / Chroma artifacts
+.chroma/
+mychroma_db/
+*.db
+
+# Personal / local docs (keep off GitHub)
+PERSONAL_INFO.md
+PROJECT_SETUP.md
+
